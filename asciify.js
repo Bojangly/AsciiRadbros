@@ -5,7 +5,7 @@ import windowSize from "window-size";
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
-var chars = " milady",
+var chars = " rad",
   num_c = chars.length - 1;
 
 export default function asciify(path, options) {
@@ -31,6 +31,8 @@ export default function asciify(path, options) {
  */
 var asciify_core = function (path, opts, callback) {
   // First open image to get initial properties
+  // console.log('pre jimp')
+  // console.log(path)
   Jimp.read(path, function (err, image) {
     if (err) return callback("Error loading image: " + err);
 

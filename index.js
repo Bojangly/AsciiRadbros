@@ -5,11 +5,11 @@ import * as fs from "fs";
 import asciify from "./asciify.js";
 import puppeteer from "puppeteer";
 import "json";
-const MILADY = "0x5Af0D9827E0c53E4799BB226655A1de152A425a5";
+const RADBRO = "0xABCDB5710B88f456fED1e99025379e2969F29610";
 
 // Optional config object, but defaults to the API key 'demo' and Network 'eth-mainnet'.
 const settings = {
-  apiKey: "ALCHEMY_PRIVATE_KEY", // Replace with your Alchemy API key.
+  apiKey: "eG8kahc0OqFr7c1VFxk4BWCVJM4J0gx9", // Replace with your Alchemy API key.
   network: Network.ETH_MAINNET, // Replace with your network.
 };
 
@@ -31,40 +31,44 @@ const width = 1200;
 const height = 1250;
 // console.log("ASCII", asciified);
 
-for (let i=0; i < 10000; i++){
+for (let i=1; i < 2; i++){
   const id = i;
-  const nftMetadata = await alchemy.nft.getNftMetadata(MILADY, id.toString());
+  const nftMetadata = await alchemy.nft.getNftMetadata(RADBRO, id.toString());
+  // console.log(nftMetadata)
   const rawMetadata = nftMetadata.rawMetadata;
+  // console.log(rawMetadata)
   const image = rawMetadata.image;
+  // console.log(image)
   const page = await browser.newPage();
-
+  // console.log(page)
+  // console.log(image)
   // Set the viewport size to match the desired output size of the image
   await page.setViewport({ width: width, height: height });
   const [asciified, colors] = await asciify(image, options);
 
   // Navigate to a blank page
   // console.log("COLORS", colors);
-  let aura;
-  if ((await JSON.stringify(rawMetadata)).includes("alien")) {
-    aura = ["#597d7d", "alien"];
-  } else {
-    const n = Math.random() * 100;
-    if (n < 25) {
-      aura = ["#FFFFFF", "light"];
-    } else if (n < 50) {
-      aura = ["#000000", "dark"];
-    } else if (n < 60) {
-      aura = ["#861A1A", "ngmeow"];
-    } else if (n < 70) {
-      aura = ["#0C8439", "wagmeow"];
-    } else if (n < 80) {
-      aura = ["#D8A4C4", "pinku"];
-    } else if (n < 90) {
-      aura = ["#c9a904", "won_forever"];
-    } else {
-      aura = ["#b01581", "♡ ♡ ♡"];
-    }
-  }
+  // let aura;
+  // if ((await JSON.stringify(rawMetadata)).includes("alien")) {
+  //   aura = ["#597d7d", "alien"];
+  // } else {
+  //   const n = Math.random() * 100;
+  //   if (n < 25) {
+  //     aura = ["#FFFFFF", "light"];
+  //   } else if (n < 50) {
+  //     aura = ["#000000", "dark"];
+  //   } else if (n < 60) {
+  //     aura = ["#861A1A", "ngmeow"];
+  //   } else if (n < 70) {
+  //     aura = ["#0C8439", "wagmeow"];
+  //   } else if (n < 80) {
+  //     aura = ["#D8A4C4", "pinku"];
+  //   } else if (n < 90) {
+  //     aura = ["#c9a904", "won_forever"];
+  //   } else {
+  //     aura = ["#b01581", "♡ ♡ ♡"];
+  //   }
+  //  }
   await page.goto("about:blank");
   await page.evaluate(
     (asciiArt, colorMap, height, width, color) => {
@@ -116,9 +120,9 @@ for (let i=0; i < 10000; i++){
     colors,
     height,
     width,
-    aura[0]
+    null//aura[0]
   );
-  rawMetadata.attributes?.push({"value": aura[1],"trait_type":"Aura"})
+  // rawMetadata.attributes?.push({"value": aura[1],"trait_type":"Aura"})
 
   fs.writeFile("output/json/" + id.toString() + ".json", JSON.stringify(rawMetadata), (err) => {
     if (err) {
