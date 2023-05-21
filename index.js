@@ -1,5 +1,6 @@
 import { Alchemy, Network } from "alchemy-sdk";
 import Jimp from "jimp";
+import { argv } from 'node:process';
 
 import * as fs from "fs";
 import asciify from "./asciify.js";
@@ -31,7 +32,7 @@ const width = 1200;
 const height = 1250;
 // console.log("ASCII", asciified);
 
-for (let i=1; i < 2; i++){
+for (let i=Number(argv[2]); i < 5001; i++){
   const id = i;
   const nftMetadata = await alchemy.nft.getNftMetadata(RADBRO, id.toString());
   // console.log(nftMetadata)
@@ -45,6 +46,7 @@ for (let i=1; i < 2; i++){
   // Set the viewport size to match the desired output size of the image
   await page.setViewport({ width: width, height: height });
   const [asciified, colors] = await asciify(image, options);
+
 
   // Navigate to a blank page
   // console.log("COLORS", colors);

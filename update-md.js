@@ -3,14 +3,19 @@
 import * as fs from "fs";
 import "json";
 
-for(let i = 0; i < 10000; i++) {
+for(let i = 1; i < 11; i++) {
     fs.readFile('output/json/' + i.toString() + '.json', 'utf8', function(err, data) {
         let rawMetadata = JSON.parse(data);
-        rawMetadata['image'] = 'ipfs://bafybeic2gtxx2amwykfil6mbxrw4sysleyjjsvv223c7cgpb3bqe5oov6y/baguette.png';
-        rawMetadata['description'] = 'Ascii Miladies are a collection of 10,000 generative pfpNFTs in a neochibi aesthetic inspired by retro ascii art and milady street style tribes.'
-        fs.writeFile("output/finaljson/", i.toString(), JSON.stringify(rawMetadata), (err) => {
+        rawMetadata['image'] = 'https://bafybeifozeeqpvvdxuwvq3rvafdm5q7xkmdr2qnxh4h6xkcybfva6zwlay.ipfs.w3s.link/img/'+i+'.png';
+        rawMetadata['description'] = 'Ascii Radbros on chain. Just tell \'em to 99 104 101 99 107 32 116 104 101 32 99 104 97 105 110.'
+        rawMetadata['name'] = `Ascii Radbro #${i}`
+        console.log(rawMetadata)
+        console.log( JSON.stringify(rawMetadata))
+        // console.log('rawMetadata')
+        fs.writeFile("output/finaljson/" + i.toString() + ".json", JSON.stringify(rawMetadata), (err) => {
             if (err) {
-        console.error(err);
-        }
-    });});
+              console.error(err);
+            }          
+    });
+});
 }

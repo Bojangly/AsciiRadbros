@@ -5,7 +5,7 @@ import windowSize from "window-size";
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
-var chars = " rad",
+var chars = "rad",
   num_c = chars.length - 1;
 
 export default function asciify(path, options) {
@@ -33,6 +33,7 @@ var asciify_core = function (path, opts, callback) {
   // First open image to get initial properties
   // console.log('pre jimp')
   // console.log(path)
+  try {
   Jimp.read(path, function (err, image) {
     if (err) return callback("Error loading image: " + err);
 
@@ -73,7 +74,7 @@ var asciify_core = function (path, opts, callback) {
 
     // Normalization for the returned intensity so that it maps to a char
     var norm = (255 * 4) / num_c;
-
+    let nextIndex = 0
     // Get and convert pixels
     var i, j, c;
     for (j = 0; j < image.bitmap.height; j++) {
@@ -87,7 +88,11 @@ var asciify_core = function (path, opts, callback) {
         for (c = 0; c < options.c_ratio; c++) {
           // character ratio
 
-          var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
+          // var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
+          var next = chars.charAt(nextIndex % chars.length);
+          nextIndex++
+          // console.log(next)
+          // console.log(nextIndex)
 
           // Color character using
           if (options.color) {
@@ -118,6 +123,10 @@ var asciify_core = function (path, opts, callback) {
 
     callback(null, [ascii, clrs]);
   });
+  } 
+  catch (e){
+   console.log(e)
+}
 };
 
 /**
