@@ -32,7 +32,14 @@ const width = 1200;
 const height = 1250;
 // console.log("ASCII", asciified);
 
-for (let i=Number(argv[2]); i < 5001; i++){
+for (let i=1; i < 10001; i++){
+
+  //skip already processed files
+  if(fs.existsSync("output/img/" + i.toString() + ".png")){
+    // console.log(`skipping id ${i}`)
+    continue
+  }
+  // console.log('fetching nft...')
   const id = i;
   const nftMetadata = await alchemy.nft.getNftMetadata(RADBRO, id.toString());
   // console.log(nftMetadata)
@@ -45,8 +52,10 @@ for (let i=Number(argv[2]); i < 5001; i++){
   // console.log(image)
   // Set the viewport size to match the desired output size of the image
   await page.setViewport({ width: width, height: height });
+  // console.log('fetched nft')
+  // console.log('asciifiing...')
   const [asciified, colors] = await asciify(image, options);
-
+  // console.log('asciified')
 
   // Navigate to a blank page
   // console.log("COLORS", colors);

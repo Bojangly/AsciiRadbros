@@ -5,7 +5,7 @@ import windowSize from "window-size";
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
-var chars = "rad",
+var chars = "adr",
   num_c = chars.length - 1;
 
 export default function asciify(path, options) {
@@ -73,7 +73,7 @@ var asciify_core = function (path, opts, callback) {
     if (!options.as_string) ascii = [];
 
     // Normalization for the returned intensity so that it maps to a char
-    var norm = (255 * 4) / num_c;
+    // var norm = (255 * 4) / num_c;
     let nextIndex = 0
     // Get and convert pixels
     var i, j, c;
